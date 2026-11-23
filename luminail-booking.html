@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LumiNail - Đặt Lịch Làm Nail Nhanh Chóng</title>
+  <style>
+    :root {
+      --primary: #d65a7a;
+      --primary-dark: #b84362;
+      --primary-light: #fdf0f4;
+      --text-main: #2d2427;
+      --text-muted: #7a6b70;
+      --bg-page: #faf7f8;
+      --white: #ffffff;
+      --border: #eadce0;
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(214, 90, 122, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--text-main);
+      font-weight: 400;
+    }
+
+    .badge-hotline {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .hero {
+      max-width: 960px;
+      margin: 28px auto 20px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 1.85rem;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .step-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .step-num {
+      background: var(--primary);
+      color: var(--white);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    select, input[type="text"], input[type="tel"], input[type="date"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, input:focus {
+      border-color: var(--primary);
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .service-item {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .service-item:hover {
+      border-color: var(--primary);
+    }
+
+    .service-item.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .service-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .service-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .service-price {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .staff-list {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .staff-card {
+      flex: 1;
+      min-width: 105px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .staff-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #f3dce3;
+      color: var(--primary);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+      font-size: 1rem;
+    }
+
+    .staff-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .staff-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .slot-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .slot-btn {
+      padding: 10px 6px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .slot-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+    }
+
+    .slot-btn.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--white);
+    }
+
+    .slot-btn:disabled {
+      background: #f1ecee;
+      color: #b4a7ab;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .summary-box {
+      position: sticky;
+      top: 84px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 0.92rem;
+    }
+
+    .summary-row:last-of-type {
+      border-bottom: none;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 2px solid var(--border);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .total-price {
+      color: var(--primary);
+      font-size: 1.25rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Modal xác nhận */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 200;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 16px;
+      max-width: 420px;
+      width: 100%;
+      padding: 26px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .check-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #e6f7ed;
+      color: #1f9d55;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+
+    .modal h3 {
+      margin-bottom: 8px;
+    }
+
+    .modal p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+    }
+
+    .modal-details {
+      background: var(--bg-page);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: left;
+      font-size: 0.88rem;
+      margin-bottom: 18px;
+    }
+
+    .modal-details div {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">Lumi<span>Nail</span></div>
+      <div class="badge-hotline">Hotline: 1900 6868</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Đặt Lịch Làm Nail Chỉ 30 Giây</h1>
+    <p>Chọn dịch vụ yêu thích, giữ chỗ trước – đến tiệm làm ngay không cần chờ đợi</p>
+  </section>
+
+  <main class="container">
+    <!-- Cột trái: Các bước chọn dịch vụ -->
+    <div>
+      <!-- Bước 1: Chi nhánh -->
+      <div class="card">
+        <div class="step-title"><span class="step-num">1</span> Chọn chi nhánh</div>
+        <select id="branchSelect" onchange="updateSummary()">
+          <option value="LumiNail Quận 1 - 120 Nguyễn Huệ">LumiNail Quận 1 - 120 Nguyễn Huệ, TP.HCM</option>
+          <option value="LumiNail Quận 3 - 45 Võ Văn Tần">LumiNail Quận 3 - 45 Võ Văn Tần, TP.HCM</option>
+          <option value="LumiNail Hoàn Kiếm - 28 Phố Huế">LumiNail Hoàn Kiếm - 28 Phố Huế, Hà Nội</option>
+        </select>
+      </div>
+
+      <!-- Bước 2: Dịch vụ -->
+      <div class="card">
+        <div class="step-title"><span class="step-num">2</span> Chọn dịch vụ (có thể chọn nhiều)</div>
+        <div class="service-grid" id="serviceGrid">
+          <div class="service-item selected" data-name="Cắt da + Sơn Gel trơn" data-price="150000" data-duration="45" onclick="toggleService(this)">
+            <div class="service-name">Cắt da + Sơn Gel trơn</div>
+            <div class="service-meta">
+              <span>45 phút</span>
+              <span class="service-price">150.000đ</span>
+            </div>
+          </div>
+
+          <div class="service-item" data-name="Úp móng Gel + Sơn mắt mèo" data-price="280000" data-duration="75" onclick="toggleService(this)">
+            <div class="service-name">Úp móng Gel + Sơn mắt mèo</div>
+            <div class="service-meta">
+              <span>75 phút</span>
+              <span class="service-price">280.000đ</span>
+            </div>
+          </div>
+
+          <div class="service-item" data-name="Vẽ Nail Design Hàn Quốc" data-price="220000" data-duration="60" onclick="toggleService(this)">
+            <div class="service-name">Vẽ Nail Design Hàn Quốc</div>
+            <div class="service-meta">
+              <span>60 phút</span>
+              <span class="service-price">220.000đ</span>
+            </div>
+          </div>
+
+          <div class="service-item" data-name="Chà gót chân + Dưỡng ẩm" data-price="180000" data-duration="40" onclick="toggleService(this)">
+            <div class="service-name">Chà gót chân + Dưỡng ẩm</div>
+            <div class="service-meta">
+              <span>40 phút</span>
+              <span class="service-price">180.000đ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bước 3: Chuyên viên -->
+      <div class="card">
+        <div class="step-title"><span class="step-num">3</span> Chọn chuyên viên (Nail Artist)</div>
+        <div class="staff-list">
+          <div class="staff-card selected" data-staff="Tiệm sắp xếp giúp" onclick="selectStaff(this)">
+            <div class="avatar">★</div>
+            <div class="staff-name">Tự động chọn</div>
+            <div class="staff-role">Nhanh nhất</div>
+          </div>
+          <div class="staff-card" data-staff="Thảo Nhi (Senior)" onclick="selectStaff(this)">
+            <div class="avatar">TN</div>
+            <div class="staff-name">Thảo Nhi</div>
+            <div class="staff-role">Senior Artist</div>
+          </div>
+          <div class="staff-card" data-staff="Minh Anh (Master)" onclick="selectStaff(this)">
+            <div class="avatar">MA</div>
+            <div class="staff-name">Minh Anh</div>
+            <div class="staff-role">Master Design</div>
+          </div>
+          <div class="staff-card" data-staff="Khánh Linh" onclick="selectStaff(this)">
+            <div class="avatar">KL</div>
+            <div class="staff-name">Khánh Linh</div>
+            <div class="staff-role">Stylist</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bước 4: Ngày và Khung giờ -->
+      <div class="card">
+        <div class="step-title"><span class="step-num">4</span> Chọn ngày & khung giờ</div>
+        <input type="date" id="bookingDate" onchange="updateSummary()" />
+        <div class="slot-grid" id="slotGrid">
+          <button type="button" class="slot-btn" onclick="selectSlot(this)">09:30</button>
+          <button type="button" class="slot-btn" disabled title="Đã kín lịch">10:30</button>
+          <button type="button" class="slot-btn selected" onclick="selectSlot(this)">11:30</button>
+          <button type="button" class="slot-btn" onclick="selectSlot(this)">13:30</button>
+          <button type="button" class="slot-btn" onclick="selectSlot(this)">15:00</button>
+          <button type="button" class="slot-btn" disabled title="Đã kín lịch">16:30</button>
+          <button type="button" class="slot-btn" onclick="selectSlot(this)">18:00</button>
+          <button type="button" class="slot-btn" onclick="selectSlot(this)">19:30</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cột phải: Thông tin khách hàng & Tóm tắt đơn -->
+    <div class="summary-box">
+      <div class="card">
+        <div class="step-title">Thông tin xác nhận</div>
+
+        <div class="form-group">
+          <label for="customerName">Họ và tên *</label>
+          <input type="text" id="customerName" placeholder="Ví dụ: Nguyễn Lan Anh" />
+        </div>
+
+        <div class="form-group">
+          <label for="customerPhone">Số điện thoại (nhận nhắc lịch) *</label>
+          <input type="tel" id="customerPhone" placeholder="Ví dụ: 0912 345 678" />
+        </div>
+
+        <div class="summary-row">
+          <span>Chi nhánh:</span>
+          <strong id="sumBranch" style="text-align:right; max-width: 60%;">LumiNail Quận 1</strong>
+        </div>
+        <div class="summary-row">
+          <span>Dịch vụ:</span>
+          <strong id="sumServices" style="text-align:right; max-width: 60%;">Cắt da + Sơn Gel trơn</strong>
+        </div>
+        <div class="summary-row">
+          <span>Chuyên viên:</span>
+          <strong id="sumStaff">Tiệm sắp xếp giúp</strong>
+        </div>
+        <div class="summary-row">
+          <span>Thời gian hẹn:</span>
+          <strong id="sumTime">11:30</strong>
+        </div>
+        <div class="summary-row">
+          <span>Thời lượng dự kiến:</span>
+          <strong id="sumDuration">45 phút</strong>
+        </div>
+
+        <div class="summary-total">
+          <span>Tạm tính:</span>
+          <span class="total-price" id="sumPrice">150.000đ</span>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="submitBooking()">Xác Nhận Đặt Lịch</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Popup xác nhận thành công -->
+  <div class="modal-backdrop" id="successModal">
+    <div class="modal">
+      <div class="check-icon">✓</div>
+      <h3>Đặt Lịch Thành Công!</h3>
+      <p>LumiNail đã giữ chỗ cho bạn. Chúng tôi sẽ gửi tin nhắn nhắc lịch trước 30 phút.</p>
+      <div class="modal-details" id="modalDetails"></div>
+      <button type="button" class="btn-submit" onclick="closeModal()">Hoàn Tất</button>
+    </div>
+  </div>
+
+  <script>
+    // Mặc định chọn ngày hôm nay
+    const dateInput = document.getElementById("bookingDate");
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.value = today;
+    dateInput.min = today;
+
+    let selectedStaff = "Tiệm sắp xếp giúp";
+    let selectedSlot = "11:30";
+
+    function toggleService(el) {
+      el.classList.toggle("selected");
+      updateSummary();
+    }
+
+    function selectStaff(el) {
+      document.querySelectorAll(".staff-card").forEach(c => c.classList.remove("selected"));
+      el.classList.add("selected");
+      selectedStaff = el.dataset.staff;
+      updateSummary();
+    }
+
+    function selectSlot(el) {
+      if (el.disabled) return;
+      document.querySelectorAll(".slot-btn").forEach(b => b.classList.remove("selected"));
+      el.classList.add("selected");
+      selectedSlot = el.textContent;
+      updateSummary();
+    }
+
+    function formatCurrency(num) {
+      return num.toLocaleString("vi-VN") + "đ";
+    }
+
+    function updateSummary() {
+      const branch = document.getElementById("branchSelect").value.split(" - ")[0];
+      const selectedItems = document.querySelectorAll(".service-item.selected");
+
+      let names = [];
+      let totalPrice = 0;
+      let totalDuration = 0;
+
+      selectedItems.forEach(item => {
+        names.push(item.dataset.name);
+        totalPrice += parseInt(item.dataset.price, 10);
+        totalDuration += parseInt(item.dataset.duration, 10);
+      });
+
+      document.getElementById("sumBranch").textContent = branch;
+      document.getElementById("sumServices").textContent = names.length ? names.join(", ") : "Chưa chọn dịch vụ";
+      document.getElementById("sumStaff").textContent = selectedStaff;
+      document.getElementById("sumTime").textContent = `${selectedSlot} (${dateInput.value})`;
+      document.getElementById("sumDuration").textContent = `${totalDuration} phút`;
+      document.getElementById("sumPrice").textContent = formatCurrency(totalPrice);
+    }
+
+    function submitBooking() {
+      const name = document.getElementById("customerName").value.trim();
+      const phone = document.getElementById("customerPhone").value.trim();
+      const selectedItems = document.querySelectorAll(".service-item.selected");
+
+      if (!selectedItems.length) {
+        alert("Vui lòng chọn ít nhất 1 dịch vụ làm nail.");
+        return;
+      }
+      if (!name || !phone) {
+        alert("Vui lòng nhập đầy đủ Họ tên và Số điện thoại để giữ lịch.");
+        return;
+      }
+
+      document.getElementById("modalDetails").innerHTML = `
+        <div><strong>Khách hàng:</strong> ${name} - ${phone}</div>
+        <div><strong>Chi nhánh:</strong> ${document.getElementById("branchSelect").value}</div>
+        <div><strong>Dịch vụ:</strong> ${document.getElementById("sumServices").textContent}</div>
+        <div><strong>Chuyên viên:</strong> ${selectedStaff}</div>
+        <div><strong>Thời gian:</strong> ${selectedSlot} ngày ${dateInput.value}</div>
+        <div><strong>Tổng tạm tính:</strong> ${document.getElementById("sumPrice").textContent}</div>
+      `;
+
+      document.getElementById("successModal").classList.add("active");
+    }
+
+    function closeModal() {
+      document.getElementById("successModal").classList.remove("active");
+    }
+
+    updateSummary();
+  </script>
+</body>
+</html>
